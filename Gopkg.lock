@@ -83,6 +83,15 @@
   version = "v1.3.0"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/lib/pq"
+  packages = [
+    ".",
+    "oid"
+  ]
+  revision = "d34b9ff171c21ad295489235aec8b6626023cd04"
+
+[[projects]]
   name = "github.com/minio/minio-go"
   packages = [
     ".",
@@ -171,6 +180,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "b3261cc2f73de05cb2ad4b6f2418233a7a11c7c5f0411d57c292127576082e64"
+  inputs-digest = "b1d8cba404745cfe59fbe998f844396312f515684b4721b7a306ebd1cfed6089"
   solver-name = "gps-cdcl"
   solver-version = 1

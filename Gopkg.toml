@@ -68,3 +68,7 @@
 [[constraint]]
   branch = "master"
   name = "github.com/dgrijalva/lfu-go"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/lib/pq"

@@ -5,6 +5,7 @@ import (
 
 	"code.ysitd.cloud/common/go/db"
 	"code.ysitd.cloud/component/aviation/sky/pkg/modals/flyer"
+	_ "github.com/lib/pq"
 	"github.com/sirupsen/logrus"
 )
 
