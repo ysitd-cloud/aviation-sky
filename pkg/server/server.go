@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-const requestTimeout = 30 * time.Second
+const requestTimeout = 5 * time.Minute
 
 type Service struct {
 	Logger   logrus.FieldLogger
