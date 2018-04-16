@@ -61,6 +61,6 @@ func (s *Service) createHandler() http.Handler {
 
 		handler := a.GetHandler()
 
-		handler.ServeHTTP(w, r)
+		handler.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
