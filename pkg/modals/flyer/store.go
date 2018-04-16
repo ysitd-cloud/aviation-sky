@@ -59,7 +59,7 @@ func (s *Store) getDBFlyer(ctx context.Context, flightNumber string) (flyer *Fly
 	s.Logger.Debugf("Get info for hostname %s", flightNumber)
 
 	query := "SELECT id, revision FROM flyers WHERE hostname = $1"
-	row := conn.QueryRowContext(ctx, query)
+	row := conn.QueryRowContext(ctx, query, flightNumber)
 
 	var f Flyer
 	flyer = &f
