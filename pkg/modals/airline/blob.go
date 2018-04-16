@@ -11,7 +11,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-const timeout = 10 * time.Second
+const timeout = 60 * time.Second
 const cacheSize int64 = 32 << 20
 
 type BlobStore struct {
