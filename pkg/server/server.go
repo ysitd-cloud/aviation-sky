@@ -15,7 +15,7 @@ import (
 const requestTimeout = 30 * time.Second
 
 type Service struct {
-	Logger   *logrus.Logger
+	Logger   logrus.FieldLogger
 	Hostname *flyer.Store
 	Airline  airline.Store
 }

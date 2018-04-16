@@ -20,7 +20,7 @@ var (
 	ppid       = os.Getppid()
 )
 
-type app struct {
+type App struct {
 	Logger          logrus.FieldLogger
 	servers         []*http.Server
 	http            *httpdown.HTTP
@@ -31,8 +31,8 @@ type app struct {
 	errors          chan error
 }
 
-func New(servers []*http.Server) *app {
-	return &app{
+func New(servers []*http.Server) *App {
+	return &App{
 		servers:   servers,
 		http:      &httpdown.HTTP{},
 		net:       &gracenet.Net{},
@@ -46,7 +46,7 @@ func New(servers []*http.Server) *app {
 	}
 }
 
-func (a *app) listen() error {
+func (a *App) listen() error {
 	for _, s := range a.servers {
 		// TODO: default addresses
 		l, err := a.net.Listen("tcp", s.Addr)
@@ -61,13 +61,13 @@ func (a *app) listen() error {
 	return nil
 }
 
-func (a *app) serve() {
+func (a *App) serve() {
 	for i, s := range a.servers {
 		a.sds = append(a.sds, a.http.Serve(s, a.listeners[i]))
 	}
 }
 
-func (a *app) wait() {
+func (a *App) wait() {
 	var wg sync.WaitGroup
 	wg.Add(len(a.sds) * 2) // Wait & Stop
 	go a.signalHandler(&wg)
@@ -82,7 +82,7 @@ func (a *app) wait() {
 	wg.Wait()
 }
 
-func (a *app) term(wg *sync.WaitGroup) {
+func (a *App) term(wg *sync.WaitGroup) {
 	for _, s := range a.sds {
 		go func(s httpdown.Server) {
 			defer wg.Done()
@@ -93,7 +93,7 @@ func (a *app) term(wg *sync.WaitGroup) {
 	}
 }
 
-func (a *app) signalHandler(wg *sync.WaitGroup) {
+func (a *App) signalHandler(wg *sync.WaitGroup) {
 	ch := make(chan os.Signal, 10)
 	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM, syscall.SIGUSR2)
 	for {
@@ -119,19 +119,19 @@ func (a *app) signalHandler(wg *sync.WaitGroup) {
 	}
 }
 
-func (a *app) Stop() {
+func (a *App) Stop() {
 	pid := os.Getpid()
 	process, _ := os.FindProcess(pid)
 	process.Signal(syscall.SIGTERM)
 }
 
-func (a *app) Restart() {
+func (a *App) Restart() {
 	pid := os.Getpid()
 	process, _ := os.FindProcess(pid)
 	process.Signal(syscall.SIGUSR2)
 }
 
-func (a *app) Run() error {
+func (a *App) Run() error {
 	// Acquire Listeners
 	if err := a.listen(); err != nil {
 		return err

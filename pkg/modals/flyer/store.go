@@ -21,6 +21,15 @@ type Store struct {
 	Logger   logrus.FieldLogger
 }
 
+func NewStore(database db.Pool, logger logrus.FieldLogger) *Store {
+	c := cache.New(defaultExpire, cleanupExpire)
+	return &Store{
+		Cache:    c,
+		Database: database,
+		Logger:   logger,
+	}
+}
+
 func (s *Store) GetFlyer(ctx context.Context, flightNumber string) (flyer *Flyer, err error) {
 	flyer, cached := s.getCachedFlyer(flightNumber)
 	if cached {
