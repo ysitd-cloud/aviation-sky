@@ -46,6 +46,7 @@ func (s *Service) createHandler() http.Handler {
 		defer cancel()
 		f, err := s.Hostname.GetFlyer(ctx, r.Host)
 		if err != nil {
+			s.Logger.Errorln(err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		} else if f == nil {
@@ -55,6 +56,7 @@ func (s *Service) createHandler() http.Handler {
 
 		a, err := s.Airline.GetRevision(ctx, f.Revision)
 		if err != nil {
+			s.Logger.Errorln(err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
