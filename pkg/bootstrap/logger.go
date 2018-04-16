@@ -5,12 +5,14 @@ import (
 	"os"
 )
 
+var Logger *logrus.Logger
+
 func initLogger() *logrus.Logger {
-	logger := logrus.New()
+	Logger = logrus.New()
 
 	if os.Getenv("VERBOSE") != "" {
-		logger.SetLevel(logrus.DebugLevel)
+		Logger.SetLevel(logrus.DebugLevel)
 	}
 
-	return logger
+	return Logger
 }

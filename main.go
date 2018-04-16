@@ -2,6 +2,7 @@ package main
 
 import (
 	"code.ysitd.cloud/component/aviation/sky/pkg/bootstrap"
+	"code.ysitd.cloud/component/aviation/sky/pkg/cache"
 	"time"
 )
 
@@ -15,5 +16,15 @@ func main() {
 			app.Restart()
 		}
 	}()
+
+	if !cache.SingleNode {
+		go func() {
+			for {
+				time.Sleep(cache.UpdateInterval)
+				cache.UpdatePool(bootstrap.Logger.WithField("source", "groupcache"))
+			}
+		}()
+	}
+
 	app.Run()
 }

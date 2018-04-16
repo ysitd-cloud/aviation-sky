@@ -20,7 +20,7 @@ type Service struct {
 	Airline  airline.Store
 }
 
-func (s *Service) CreateServer() *http.Server {
+func (s *Service) CreateServer(addr string) *http.Server {
 	handler := s.createHandler()
 
 	logWriter := s.Logger.WithField("source", "access").Writer()
@@ -34,6 +34,7 @@ func (s *Service) CreateServer() *http.Server {
 	)(handler)
 
 	return &http.Server{
+		Addr:     addr,
 		Handler:  handler,
 		ErrorLog: log.New(errWriter, "", 0),
 	}
