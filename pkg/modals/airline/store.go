@@ -45,5 +45,11 @@ func (ps *PluginStore) installPlugin(ctx context.Context, revision string) (airl
 		return nil, err
 	}
 
-	return validate.ValidateAirline(file.Name())
+	airline, err = validate.ValidateAirline(file.Name())
+	if err != nil {
+		return
+	}
+
+	airline.Initial(ctx)
+	return
 }
