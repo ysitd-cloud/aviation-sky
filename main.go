@@ -27,5 +27,8 @@ func main() {
 		go cache.Listen(bootstrap.Logger.WithField("source", "groupcache_http"))
 	}
 
-	app.Run()
+	if err := app.Run(); err != nil {
+		bootstrap.Logger.WithField("source", "http").
+			Fatal(err)
+	}
 }
