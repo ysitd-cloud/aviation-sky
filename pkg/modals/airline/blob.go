@@ -8,6 +8,7 @@ import (
 
 	"github.com/golang/groupcache"
 	"github.com/minio/minio-go"
+	"github.com/sirupsen/logrus"
 )
 
 const timeout = 10 * time.Second
@@ -17,6 +18,7 @@ type BlobStore struct {
 	Cache  *groupcache.Group
 	Client *minio.Client
 	Bucket string
+	Logger logrus.FieldLogger
 }
 
 func NewBlobStore(client *minio.Client, bucket, groupName string) *BlobStore {
@@ -50,6 +52,8 @@ func (s *BlobStore) Get(_ groupcache.Context, key string, dest groupcache.Sink) 
 	if err != nil {
 		return
 	}
+
+	s.Logger.Debugf("Get file for revision %s from remote", key)
 
 	return dest.SetBytes(buffer.Bytes())
 }

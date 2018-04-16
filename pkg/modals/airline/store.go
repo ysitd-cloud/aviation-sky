@@ -8,11 +8,13 @@ import (
 	"code.ysitd.cloud/component/aviation/runway"
 	"code.ysitd.cloud/component/aviation/runway/validate"
 	"github.com/dgrijalva/lfu-go"
+	"github.com/sirupsen/logrus"
 )
 
 type PluginStore struct {
 	BlobStore *BlobStore
 	Cache     *lfu.Cache
+	Logger    logrus.FieldLogger
 }
 
 func (ps *PluginStore) GetRevision(ctx context.Context, revision string) (runway.Airline, error) {
@@ -51,5 +53,7 @@ func (ps *PluginStore) installPlugin(ctx context.Context, revision string) (airl
 	}
 
 	airline.Initial(ctx)
+
+	ps.Logger.Debugf("Install plugin with revision %s\n", revision)
 	return
 }

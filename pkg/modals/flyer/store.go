@@ -7,6 +7,7 @@ import (
 
 	"code.ysitd.cloud/common/go/db"
 	"github.com/patrickmn/go-cache"
+	"github.com/sirupsen/logrus"
 )
 
 const (
@@ -17,6 +18,7 @@ const (
 type Store struct {
 	Cache    *cache.Cache
 	Database db.Pool
+	Logger   logrus.FieldLogger
 }
 
 func (s *Store) GetFlyer(ctx context.Context, flightNumber string) (flyer *Flyer, err error) {
@@ -44,6 +46,8 @@ func (s *Store) getDBFlyer(ctx context.Context, flightNumber string) (flyer *Fly
 	}
 
 	defer conn.Close()
+
+	s.Logger.Debugf("Get info for hostname %s", flightNumber)
 
 	query := "SELECT id, revision FROM flyers WHERE hostname = $1"
 	row := conn.QueryRowContext(ctx, query)
