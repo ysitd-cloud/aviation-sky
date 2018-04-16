@@ -36,7 +36,14 @@ func (s *Store) GetFlyer(ctx context.Context, flightNumber string) (flyer *Flyer
 		return
 	}
 
-	return s.getDBFlyer(ctx, flightNumber)
+	flyer, err = s.getDBFlyer(ctx, flightNumber)
+	if err != nil {
+		return
+	}
+
+	s.Cache.SetDefault(flightNumber, flyer)
+
+	return
 }
 
 func (s *Store) getCachedFlyer(flightNumber string) (flyer *Flyer, cached bool) {

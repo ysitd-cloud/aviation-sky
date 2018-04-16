@@ -17,13 +17,18 @@ type PluginStore struct {
 	Logger    logrus.FieldLogger
 }
 
-func (ps *PluginStore) GetRevision(ctx context.Context, revision string) (runway.Airline, error) {
+func (ps *PluginStore) GetRevision(ctx context.Context, revision string) (airline runway.Airline, err error) {
 	val := ps.Cache.Get(revision)
 	if val != nil {
 		return val.(runway.Airline), nil
 	}
 
-	return ps.installPlugin(ctx, revision)
+	airline, err = ps.installPlugin(ctx, revision)
+	if err != nil {
+		return
+	}
+	ps.Cache.Set(revision, airline)
+	return
 }
 
 func (ps *PluginStore) installPlugin(ctx context.Context, revision string) (airline runway.Airline, err error) {
@@ -32,7 +37,11 @@ func (ps *PluginStore) installPlugin(ctx context.Context, revision string) (airl
 		return
 	}
 
-	file, err := ioutil.TempFile("airline", revision)
+	file, err := ioutil.TempFile("", "airline"+revision)
+	if err != nil {
+		return
+	}
+
 	if err != nil {
 		return
 	}
