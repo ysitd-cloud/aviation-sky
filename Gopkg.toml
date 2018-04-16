@@ -52,3 +52,19 @@
 [[constraint]]
   name = "github.com/patrickmn/go-cache"
   version = "2.1.0"
+
+[[constraint]]
+  name = "code.ysitd.cloud/component/aviation/runway"
+  branch = "master"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/golang/groupcache"
+
+[[constraint]]
+  name = "github.com/minio/minio-go"
+  version = "6.0.0"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/dgrijalva/lfu-go"
