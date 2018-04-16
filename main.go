@@ -24,6 +24,7 @@ func main() {
 				cache.UpdatePool(bootstrap.Logger.WithField("source", "groupcache"))
 			}
 		}()
+		go cache.Listen(bootstrap.Logger.WithField("source", "groupcache_http"))
 	}
 
 	app.Run()
