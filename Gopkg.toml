@@ -28,3 +28,15 @@
 [prune]
   go-tests = true
   unused-packages = true
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/facebookgo/httpdown"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/facebookgo/grace"
+
+[[constraint]]
+  name = "github.com/sirupsen/logrus"
+  version = "1.0.5"
