@@ -14,7 +14,7 @@
     ".",
     "validate"
   ]
-  revision = "560c4f1fa37e604d60ad112b6f4f1020d00f0f23"
+  revision = "9a423669025c3055a12ffe3d531b9bf152088ec1"
 
 [[projects]]
   branch = "master"
