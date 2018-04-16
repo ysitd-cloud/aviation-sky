@@ -6,7 +6,7 @@ import (
 )
 
 var Picker groupcache.PeerPicker
-var SingleNode = os.Getenv("SINGLE_NODE") == ""
+var SingleNode = os.Getenv("SINGLE_NODE") != ""
 
 func init() {
 	if SingleNode {
